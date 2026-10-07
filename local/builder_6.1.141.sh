@@ -331,8 +331,8 @@ if [[ "$APPLY_DROIDSPACES" == [sSeE] ]]; then
   patch -p1 -F 3 < ntsync_base.patch || true
   patch -p1 -F 3 < ntsync_compat_android14-6.1.patch || true
   # 应用 cgroup 限制 KABI 安全补丁：解锁 Droidspaces --cpus / --pids-limit，保持 KMI 不变
-  wget https://github.com/XiaoChen515144/oppo_oplus_realme_sm8650/raw/refs/heads/main/droidspaces_patch/fix_cgroup_limits_kabi.patch
-  patch -p1 -F 3 < fix_cgroup_limits_kabi.patch || true
+  wget https://github.com/XiaoChen515144/oppo_oplus_realme_sm8650/raw/refs/heads/main/droidspaces_patch/fix_cgroup_limits_kabi_6.1.141.patch
+  patch -p1 -F 3 < fix_cgroup_limits_kabi_6.1.141.patch || true
   cd ..
   if [[ "$APPLY_DROIDSPACES" == [eE] ]]; then
     echo "正在启用容器环境扩展支持..."
