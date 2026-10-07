@@ -315,6 +315,9 @@ if [[ "$APPLY_DROIDSPACES" == [sSeE] ]]; then
   echo "CONFIG_NETFILTER_XT_MATCH_RECENT=y" >> "$DEFCONFIG_FILE"
   # 开启 NTSync
   echo "CONFIG_NTSYNC=y" >> "$DEFCONFIG_FILE"
+  # 以下两项依赖 cgroup 限制 KABI 安全补丁，可安全启用（保持 KMI 不变）
+  echo "CONFIG_CFS_BANDWIDTH=y" >> "$DEFCONFIG_FILE"
+  echo "CONFIG_CGROUP_PIDS=y" >> "$DEFCONFIG_FILE"
   cd common
   # 应用 Droidspaces 容器必须补丁
   wget https://github.com/cctv18/oppo_oplus_realme_sm8650/raw/refs/heads/main/droidspaces_patch/fix_sysvipc_kabi_6_7_8.patch
@@ -327,6 +330,9 @@ if [[ "$APPLY_DROIDSPACES" == [sSeE] ]]; then
   wget https://github.com/cctv18/oppo_oplus_realme_sm8650/raw/refs/heads/main/droidspaces_patch/ntsync_compat_android14-6.1.patch
   patch -p1 -F 3 < ntsync_base.patch || true
   patch -p1 -F 3 < ntsync_compat_android14-6.1.patch || true
+  # 应用 cgroup 限制 KABI 安全补丁：解锁 Droidspaces --cpus / --pids-limit，保持 KMI 不变
+  wget https://github.com/XiaoChen515144/oppo_oplus_realme_sm8650/raw/refs/heads/main/droidspaces_patch/fix_cgroup_limits_kabi.patch
+  patch -p1 -F 3 < fix_cgroup_limits_kabi.patch || true
   cd ..
   if [[ "$APPLY_DROIDSPACES" == [eE] ]]; then
     echo "正在启用容器环境扩展支持..."
